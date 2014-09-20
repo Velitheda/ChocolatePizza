@@ -34,16 +34,10 @@ std::string unxz(const std::string& compressed ){
 	b.out_pos = 0;
 	b.out_size = BUFSIZ;
 
-	for (int i = 0; i < 16; i++) {
-		printf("%02x ", b.in[i]);
-	}
-	printf("\n");
-
 	while (b.in_pos != b.in_size) {
 
 		ret = xz_dec_run(s, &b);
 
-        printf("Output % d\n", (int) b.in_pos);
 		uncompressed.append((const char*) out, b.out_pos);
 		b.out_pos = 0;
 	
