@@ -4,11 +4,9 @@
 #include <stdio.h>
 #include <string.h>
 #include "xz.h"
-//pseudoMain  std::string (std::string msg);
 
 
-
-std::string unxz(std::string& compressed ){
+std::string unxz(const std::string& compressed ){
 	
 	struct xz_buf b;
 	struct xz_dec* s;
@@ -56,7 +54,6 @@ std::string unxz(std::string& compressed ){
 
 #ifdef XZ_DEC_ANY_CHECK
 		if (ret == XZ_UNSUPPORTED_CHECK) {
-			fputs(argv[0], stderr);
 			fputs(": ", stderr);
 			fputs("Unsupported check; not verifying "
 					"file integrity\n", stderr);
@@ -66,8 +63,7 @@ std::string unxz(std::string& compressed ){
 
 		switch (ret) {
 		case XZ_STREAM_END:
-			xz_dec_end(s);
-			return 0;
+	                return uncompressed;
 
 		case XZ_MEM_ERROR:
 			msg = "Memory allocation failed\n";
@@ -95,7 +91,6 @@ std::string unxz(std::string& compressed ){
 			goto error;
 		}
 	}
-	return uncompressed;
 
 error:
 	xz_dec_end(s);
@@ -106,8 +101,12 @@ error:
 	return uncompressed;	
 }
 
+
+
+
+/*
 int main(int argc, char* argv[]){
-    static char buffer[16];
+    static char buffer[1000000];
 
 	FILE* f=fopen("1984.txt.xz", "rb");
 	if (!f) {
@@ -121,6 +120,7 @@ int main(int argc, char* argv[]){
     s.append(buffer, size);
 
     std::string o = unxz(s);
+    printf("Length=%d\n, %s\n", (int) o.length(), o.c_str());
 
-	return 0;
-}
+    return 0;
+}*/

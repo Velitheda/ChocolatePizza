@@ -1,10 +1,9 @@
-#include "xz.h"
-
 #include <emscripten/bind.h>
 
 using namespace emscripten;
-
+std::string unxz(const std::string& compressed);
 
 EMSCRIPTEN_BINDINGS(xz) {
-    function("xz_crc32_init", &xz_crc32_init);
+    function("unxz", &unxz);
 }
+
